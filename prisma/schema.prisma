@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// coloquei direto a url do banco em vez de variavel de ambiente para
+// nao ter o risco de o arquivo .env criado de alguma maneira sobreescrever 
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://docker:docker@localhost:5432/medidor?schema=public"
+}
+
+model Reading {
+  id              String      @id @default(uuid())
+  customerCode    String
+  measureDatetime DateTime
+  measureType     MeasureType
+  value           Float
+  imageUrl        String
+  confirmed       Boolean     @default(false)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([customerCode, measureDatetime, measureType], name: "unique_reading_index")
+}
+
+enum MeasureType {
+  WATER
+  GAS
+}
