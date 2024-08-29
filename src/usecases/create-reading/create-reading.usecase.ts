@@ -77,7 +77,7 @@ export class CreateReadingUsecase
       `Get the reading value for ${measure_type}`
     );
 
-    if (content == null) {
+    if (content == null || content === "") {
       throw new ContentGenerationError();
     }
 
