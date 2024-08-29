@@ -75,6 +75,8 @@ export class CreateReadingRoute implements Route {
         } else if (error instanceof NumberExtractionError) {
           response.status(error.statusCode).json({ error: error.message });
         } else {
+          console.log("error: ", error);
+
           response.status(500).json({ error: "An unexpected error occurred." });
         }
       }

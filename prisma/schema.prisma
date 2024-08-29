@@ -8,7 +8,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://docker:docker@localhost:5432/medidor?schema=public"
+  url      = "postgresql://docker:docker@postgres:5432/medidor?schema=public"
 }
 
 model Reading {

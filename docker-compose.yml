@@ -1,5 +1,3 @@
-version: "3.7"
-
 services:
   postgres:
     image: bitnami/postgresql:latest
@@ -22,10 +20,6 @@ services:
       - "3000:3000"
     depends_on:
       - postgres
-    environment:
-      - DATABASE_URL=postgres://docker:docker@postgres:5432/medidor
-    volumes:
-      - .:/usr/src/app
     networks:
       - app-network
 
