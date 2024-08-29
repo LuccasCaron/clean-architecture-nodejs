@@ -22,6 +22,7 @@ services:
       - postgres
     networks:
       - app-network
+    command: sh -c "npx prisma migrate deploy && npm start"
 
 volumes:
   polls_pg_data:
