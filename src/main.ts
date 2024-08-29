@@ -22,12 +22,8 @@ function main() {
     aRepository,
     aGeminiReader
   );
-
   const confirmReadingUsecase = ConfirmReadingUsecase.create(aRepository);
-
   const getReadingsUsecase = GetReadingUsecase.create(aRepository);
-
-  // criar outros use cases aqui
 
   const createRoute = CreateReadingRoute.create(createReadingUsecase);
   const confirmRoute = ConfirmReadingRoute.create(confirmReadingUsecase);
