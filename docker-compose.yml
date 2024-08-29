@@ -11,6 +11,27 @@ services:
       - POSTGRES_DB=medidor
     volumes:
       - polls_pg_data:/bitnami/postgresql
+    networks:
+      - app-network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgres://docker:docker@postgres:5432/medidor
+    volumes:
+      - .:/usr/src/app
+    networks:
+      - app-network
 
 volumes:
   polls_pg_data:
+
+networks:
+  app-network:
+    driver: bridge

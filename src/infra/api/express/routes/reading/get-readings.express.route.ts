@@ -67,6 +67,8 @@ export class GetReadingRoute implements Route {
             error_description: "Tipo de medição não permitida",
           });
         } else {
+          console.log("error: ", error);
+
           response.status(500).json({ error: "An unexpected error occurred." });
         }
       }
