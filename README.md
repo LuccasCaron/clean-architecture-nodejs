@@ -35,7 +35,7 @@ GEMINI_API_KEY=value
 
 3. **Inicie os serviços com Docker Compose::**
 
-docker-compose up --build
+docker-compose up -d
 
 ## Testando a API
 
@@ -45,8 +45,7 @@ POST /upload: Upload de uma nova medição.
 
 PATCH /confirm: Confirmação de uma medição.
 
-GET /
-/list: Listagem de medições para um código de cliente específico.
+GET /<custumer_code>/list: Listagem de medições para um código de cliente específico.
 
 Exemplo de requisição para o endpoint /upload:
 
