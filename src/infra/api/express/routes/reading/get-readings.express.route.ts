@@ -5,11 +5,9 @@ import {
   GetReadingInputDto,
   GetReadingOutputDto,
   GetReadingUsecase,
+  MeasuresResponse,
 } from "../../../../../usecases/get-readings/get-readings.usecase";
-import {
-  MeasureType,
-  Reading,
-} from "../../../../../domain/entity/reading.domain";
+import { MeasureType } from "../../../../../domain/entity/reading.domain";
 import { z } from "zod";
 
 const measureTypeSchema = z
@@ -18,7 +16,7 @@ const measureTypeSchema = z
 
 export type GetReadingReponseDto = {
   customer_code: string;
-  measures: any[];
+  measures: MeasuresResponse;
 };
 
 export class GetReadingRoute implements Route {
@@ -53,9 +51,7 @@ export class GetReadingRoute implements Route {
         const output: GetReadingOutputDto =
           await this.getReadingUsecase.execute(input);
 
-        const responseBody = this.present(output);
-
-        response.status(200).json(responseBody);
+        response.status(200).json(output);
       } catch (error: any) {
         if (error instanceof ReadingsNotFound) {
           response
@@ -72,23 +68,6 @@ export class GetReadingRoute implements Route {
           response.status(500).json({ error: "An unexpected error occurred." });
         }
       }
-    };
-  }
-
-  private present(output: GetReadingOutputDto): GetReadingReponseDto {
-    return {
-      customer_code: output.customer_code,
-      measures: output.measures.map((reading) => ({
-        id: reading.id,
-        customer_code: reading.customer_code,
-        measure_datetime: reading.measure_datetime,
-        measure_type: reading.measure_type,
-        value: reading.value,
-        image_url: reading.image_url,
-        confirmed: reading.confirmed,
-        createdAt: reading.createAt,
-        updatedAt: reading.updatedAt,
-      })),
     };
   }
 

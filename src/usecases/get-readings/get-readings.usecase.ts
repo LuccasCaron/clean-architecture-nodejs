@@ -8,9 +8,17 @@ export type GetReadingInputDto = {
   measure_type?: MeasureType;
 };
 
+export type MeasuresResponse = {
+  measure_uui: string;
+  measure_datetime: Date;
+  measure_type: string;
+  has_confirmed: boolean;
+  image_url: string;
+};
+
 export type GetReadingOutputDto = {
   customer_code: string;
-  measures: Reading[];
+  measures: MeasuresResponse[];
 };
 
 export class GetReadingUsecase
@@ -36,7 +44,13 @@ export class GetReadingUsecase
 
     return {
       customer_code,
-      measures: readings,
+      measures: readings.map((reading) => ({
+        measure_uui: reading.id,
+        measure_datetime: reading.measure_datetime,
+        measure_type: reading.measure_type,
+        has_confirmed: reading.confirmed,
+        image_url: reading.image_url,
+      })),
     };
   }
 }
