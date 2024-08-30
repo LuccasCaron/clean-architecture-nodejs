@@ -55,12 +55,7 @@ export class CreateReadingUsecase
       throw new ReadingAlreadyExistsError();
     }
 
-    const directoryArchivesTemporary = path.join(__dirname, "../../temp");
-    const fileDetails = saveBase64Image(
-      image_base64,
-      directoryArchivesTemporary,
-      "temp_image.jpeg"
-    );
+    const fileDetails = saveBase64Image(image_base64, "temp_image.jpeg");
 
     const uploadedFile = await this.geminiService.uploadImage(
       fileDetails.filePath,

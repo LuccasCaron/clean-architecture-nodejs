@@ -27,18 +27,22 @@ describe("GetReadingUsecase", () => {
 
   it("should return readings for a customer code", async () => {
     const mockReadings: Reading[] = [
-      Reading.create(
-        "ABC123",
-        MeasureType.WATER,
-        100,
-        "http://localhost/image1.jpeg"
-      ),
-      Reading.create(
-        "ABC123",
-        MeasureType.GAS,
-        200,
-        "http://localhost/image2.jpeg"
-      ),
+      {
+        id: "1",
+        customer_code: "ABC123",
+        measure_type: MeasureType.WATER,
+        measure_datetime: new Date("2023-08-30T00:00:00Z"),
+        confirmed: true,
+        image_url: "http://localhost/image1.jpeg",
+      } as Reading,
+      {
+        id: "2",
+        customer_code: "ABC123",
+        measure_type: MeasureType.GAS,
+        measure_datetime: new Date("2023-08-30T00:00:00Z"),
+        confirmed: false,
+        image_url: "http://localhost/image2.jpeg",
+      } as Reading,
     ];
 
     readingGateway.list.mockResolvedValue(mockReadings);
@@ -51,19 +55,36 @@ describe("GetReadingUsecase", () => {
 
     expect(result).toEqual({
       customer_code: "ABC123",
-      measures: mockReadings,
+      measures: [
+        {
+          measure_uui: "1",
+          measure_datetime: new Date("2023-08-30T00:00:00Z"),
+          measure_type: MeasureType.WATER,
+          has_confirmed: true,
+          image_url: "http://localhost/image1.jpeg",
+        },
+        {
+          measure_uui: "2",
+          measure_datetime: new Date("2023-08-30T00:00:00Z"),
+          measure_type: MeasureType.GAS,
+          has_confirmed: false,
+          image_url: "http://localhost/image2.jpeg",
+        },
+      ],
     });
     expect(readingGateway.list).toHaveBeenCalledWith("ABC123", undefined);
   });
 
   it("should return readings for a customer code and measure type", async () => {
     const mockReadings: Reading[] = [
-      Reading.create(
-        "ABC123",
-        MeasureType.WATER,
-        100,
-        "http://localhost/image1.jpeg"
-      ),
+      {
+        id: "1",
+        customer_code: "ABC123",
+        measure_type: MeasureType.WATER,
+        measure_datetime: new Date("2023-08-30T00:00:00Z"),
+        confirmed: true,
+        image_url: "http://localhost/image1.jpeg",
+      } as Reading,
     ];
 
     readingGateway.list.mockResolvedValue(mockReadings);
@@ -77,7 +98,15 @@ describe("GetReadingUsecase", () => {
 
     expect(result).toEqual({
       customer_code: "ABC123",
-      measures: mockReadings,
+      measures: [
+        {
+          measure_uui: "1",
+          measure_datetime: new Date("2023-08-30T00:00:00Z"),
+          measure_type: MeasureType.WATER,
+          has_confirmed: true,
+          image_url: "http://localhost/image1.jpeg",
+        },
+      ],
     });
     expect(readingGateway.list).toHaveBeenCalledWith(
       "ABC123",

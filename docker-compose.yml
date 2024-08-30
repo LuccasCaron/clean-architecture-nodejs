@@ -8,7 +8,7 @@ services:
       - POSTGRES_PASSWORD=docker
       - POSTGRES_DB=medidor
     volumes:
-      - polls_pg_data:/bitnami/postgresql
+      - reading_data:/bitnami/postgresql
     networks:
       - app-network
     healthcheck:
@@ -29,10 +29,13 @@ services:
         condition: service_healthy
     networks:
       - app-network
+    volumes:
+      - c:\dados-docker\volumes\images:/app/temp
     command: sh -c "npx prisma migrate deploy && npm start"
 
 volumes:
-  polls_pg_data:
+  reading_data:
+  temp:
 
 networks:
   app-network:

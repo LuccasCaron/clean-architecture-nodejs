@@ -74,10 +74,26 @@ export class CreateReadingRoute implements Route {
           response.status(error.statusCode).json({ error: error.message });
         } else if (error instanceof NumberExtractionError) {
           response.status(error.statusCode).json({ error: error.message });
+        } else if (
+          error.message &&
+          error.message.includes("[GoogleGenerativeAI Error]")
+        ) {
+          // Tratamento específico para o erro da API do Google Generative AI
+          response.status(502).json({
+            error_code: "EXTERNAL_API_ERROR",
+            error_description:
+              "A falha ocorreu na comunicação com a API externa do Google Generative AI. Tente novamente mais tarde.",
+            details: {
+              message: error.message,
+              api_endpoint: "https://generativelanguage.googleapis.com",
+            },
+          });
         } else {
-          console.log("error: ", error);
-
-          response.status(500).json({ error: "An unexpected error occurred." });
+          response.status(500).json({
+            message: "An unexpected error occurred",
+            name: error.name || "Error",
+            stack: error.stack || "No stack trace available",
+          });
         }
       }
     };

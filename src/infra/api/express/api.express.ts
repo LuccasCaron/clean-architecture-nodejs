@@ -9,7 +9,7 @@ export class ApiExpress implements Api {
   private constructor(routes: Route[]) {
     this.app = express();
     this.app.use(express.json());
-    this.app.use("/temp", express.static(path.join(__dirname, "../temp")));
+    this.app.use("/temp", express.static("/app/temp"));
     this.addRoutes(routes);
   }
 
