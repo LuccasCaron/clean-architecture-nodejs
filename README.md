@@ -12,7 +12,7 @@
 
 - **Node.js**: Ambiente de execução JavaScript.
 - **Express**: Framework para a criação da API.
-- **TypeScript**: Linguagem de programação que adiciona tipagem estática ao JavaScript.
+- **TypeScript**: Tipagem estática ao JavaScript.
 - **Docker**: Para containerização e orquestração dos serviços.
 - **Prisma**: ORM para interação com o banco de dados.
 - **PostgreSQL**: Banco de dados relacional.
