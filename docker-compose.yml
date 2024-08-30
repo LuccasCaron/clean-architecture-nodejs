@@ -11,6 +11,12 @@ services:
       - polls_pg_data:/bitnami/postgresql
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U docker"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
 
   api:
     build:
@@ -19,7 +25,8 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     networks:
       - app-network
     command: sh -c "npx prisma migrate deploy && npm start"

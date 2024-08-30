@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 export enum MeasureType {
   WATER = "WATER",
   GAS = "GAS",
@@ -25,7 +27,7 @@ export class Reading {
     image_url: string
   ) {
     return new Reading({
-      id: crypto.randomUUID().toString(),
+      id: uuidv4(),
       customer_code,
       measure_datetime: new Date(),
       measure_type,
